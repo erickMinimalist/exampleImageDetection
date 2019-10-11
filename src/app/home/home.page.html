@@ -1,22 +1,18 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>
-      Ionic Blank
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content>
-  <canvas></canvas>
   <div class="ion-padding">
-      <ion-fab vertical="bottom" horizontal="center" slot="fixed">
-          <ion-fab-button (click)="takePicture()">
-            <ion-icon name="camera"></ion-icon>
-          </ion-fab-button>
-        </ion-fab>
-    <p>If you get lost, the <a target="_blank" rel="noopener" href="https://ionicframework.com/docs/">docs</a> will be your guide.</p>
+    <ion-fab vertical="bottom" horizontal="center" slot="fixed">
+      <ion-fab-button (click)="takePicture()">
+        <ion-icon name="camera"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+    
     <ion-button (click)="ionViewDidLoad()">
       Click me
     </ion-button>
   </div>
 </ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <ion-button expand="block" (click)="onBack()">Cerrar</ion-button>
+  </ion-toolbar>
+</ion-footer>

@@ -20,7 +20,6 @@ export class HomePage implements OnInit{
   constructor(public navCtrl: NavController, public platform: Platform,private camera: Camera, public ImageDetection: ImageDetectionService) { }
 
   takePicture() {
-    this.ImageDetection.ngOnInit();
     const options: CameraOptions = {
       quality: 100,
       destinationType: this.camera.DestinationType.DATA_URL,
@@ -100,7 +99,7 @@ export class HomePage implements OnInit{
 
       ImageDetectionPlugin.prototype.setDetectionTimeout(10, function (success) { console.log(success); }, function (error) { console.log(error); });
       function stopScanning () {
-        ImageDetectionPlugin.prototype.stop ("stop", function(success) {
+        ImageDetectionPlugin.prototype.stop(function(success) {
           console.info("Stop successfully", success);
         }, function(error){
           console.error("StopScanning", error);
