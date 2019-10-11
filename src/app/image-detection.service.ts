@@ -1,40 +1,16 @@
-import { Component, OnInit } from '@angular/core';
-import { Variable } from '@angular/compiler/src/render3/r3_ast';
+import { Injectable } from '@angular/core';
 import { NavController, Platform } from '@ionic/angular';
-import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
-import {ImageDetectionService} from 'src/app/image-detection.service';
 
-//Declaración del variable del Plugin
+
 declare var ImageDetectionPlugin: any;
 
-@Component({
-  selector: 'app-home',
-  templateUrl: 'home.page.html',
-  styleUrls: ['home.page.scss'],
+@Injectable({
+  providedIn: 'root'
 })
-export class HomePage implements OnInit{
-  cordova: any;
-  currentImage: any;
-  
-  // ImageDetectionPlugin: any;
-  constructor(public navCtrl: NavController, public platform: Platform,private camera: Camera, public ImageDetection: ImageDetectionService) { }
+export class ImageDetectionService {
 
-  takePicture() {
-    this.ImageDetection.ngOnInit();
-    const options: CameraOptions = {
-      quality: 100,
-      destinationType: this.camera.DestinationType.DATA_URL,
-      encodingType: this.camera.EncodingType.JPEG,
-      mediaType: this.camera.MediaType.PICTURE
-    };
+  constructor(public navCtrl: NavController, public platform: Platform) { }
 
-    this.camera.getPicture(options).then((imageData) => {
-      this.currentImage = 'data:image/jpeg;base64,' + imageData;
-    }, (err) => {
-      // Handle error
-      console.log("Camera issue:" + err);
-    });
-  }
   ngOnInit() {
     //Verifica si ya se encuentra lista la plataforma  
     this.platform.ready().then(() => {
@@ -48,10 +24,9 @@ export class HomePage implements OnInit{
       ImageDetectionPlugin.prototype.isDetecting(function (success) {
         console.log('Success', success);
         var resp = JSON.parse(success);
-        console.log(resp.index, "image detected - ", indexes[resp.index]);
-        alert("Index detected: " + resp.index + ", image detected - " + indexes[resp.index]);
-        stopScanning();
-      }, function (error) { console.log("Image no detected",error); alert("Image no detected") });
+        // console.log(resp.index, "image detected - ", this.indexes[resp.index]);
+        alert("Index detected: " + resp.index);
+      }, function (error) { console.log("Image no detected",error); });
 
       function setAllPatterns(patterns) {
         console.log('Patterns', patterns);
@@ -98,17 +73,10 @@ export class HomePage implements OnInit{
       };
       img.src = "/assets/target3.jpg";
 
-      ImageDetectionPlugin.prototype.setDetectionTimeout(10, function (success) { console.log(success); }, function (error) { console.log(error); });
-      function stopScanning () {
-        ImageDetectionPlugin.prototype.stop ("stop", function(success) {
-          console.info("Stop successfully", success);
-        }, function(error){
-          console.error("StopScanning", error);
-        });
-        }
+      // ImageDetectionPlugin.prototype.setDetectionTimeout(5, function (success) { console.log(success); }, function (error) { console.log(error); });
+
     });
   }
-
 
   //Funcion para desplegar la respuesta cuando es satisfactorio
   successCallback(message) {
@@ -119,5 +87,4 @@ export class HomePage implements OnInit{
   errorCallback() {
     alert("Hubo un error");
   }
-
 }
